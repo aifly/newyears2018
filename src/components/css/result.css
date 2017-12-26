@@ -1,0 +1,67 @@
+/*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {
+    background-color: #fff;
+    border-color: #bf1616;
+    box-shadow: 0 0 0 2px rgba(191, 22, 22, 0.1);
+}*/
+.lt-full {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0; }
+
+.zmiti-text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-text-overflow: ellipsis; }
+
+.zmiti-card {
+  width: 8rem;
+  margin: 1rem auto 0;
+  border-radius: 0.4rem;
+  position: relative; }
+
+.zmiti-result-btns {
+  width: 8rem;
+  margin: 0 auto;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-box-orient: horizontal;
+  text-align: center;
+  height: 1rem;
+  line-height: 1rem;
+  color: #d3292e; }
+  .zmiti-result-btns > div {
+    text-align: center;
+    -webkit-box-flex: 1;
+    margin: 0 10px;
+    position: relative;
+    border-radius: 0.2rem; }
+    .zmiti-result-btns > div:before {
+      border-radius: 0.2rem;
+      overflow: hidden;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      box-shadow: 0 5px 3px rgba(0, 0, 0, 0.5);
+      left: 0;
+      top: 0; }
+
+.zmiti-logo {
+  width: 8rem;
+  font-size: 12px;
+  color: #5f5f5f;
+  text-align: center;
+  margin: 0 auto 0; }
+  .zmiti-logo img {
+    width: .5rem; }
+  .zmiti-logo.zmiti-sentime-logo {
+    margin: .6rem auto 0; }
+    .zmiti-logo.zmiti-sentime-logo img {
+      width: 1rem; }
+
+/*# sourceMappingURL=result.css.map */

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>定格2017，展望2018</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+	<img id="img" width="200" src="http://api.zmiti.com/zmiti_ele/other/20171226/600dd1c28641181fcc6a0e73cc715e3e.png">
+    <script src='http://alloyteam.github.io/AlloyImage/js/combined/alloyimage.js'></script>
+    <script>
+       
+       var img = new Image();
+       img.crossOrigin = '*'
+       img.onload = function(){
+         var alloyImg = AlloyImage(this);
+           var s = alloyImg.ps('素描').replace(document.getElementById('img'));
+    
+       }
+       img.src = document.getElementById('img').src;
+    </script>
+  </body>
+</html>

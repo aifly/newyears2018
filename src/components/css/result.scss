@@ -1,0 +1,63 @@
+@import "./base.scss";
+
+.zmiti-card {
+	width: 8rem;
+	margin: 1rem auto 0;
+	@include br(.4rem);
+	@include pos(r);
+}
+
+.zmiti-result-btns {
+	width: 8rem;
+	margin: 0 auto;
+	@include displayBox(horizontal);
+	text-align: center;
+	height: 1rem;
+	line-height: 1rem;
+	color: #d3292e;
+
+	&>div {
+		text-align: center;
+		-webkit-box-flex: 1;
+		margin: 0 10px;
+		@include pos(r);
+		@include br(.2rem);
+
+		&:before {
+			@include br(.2rem);
+			overflow: hidden;
+			content: '';
+			@include pos(a);
+			width: 100%;
+			height: 100%;
+			box-shadow: 0 5px 3px rgba(0, 0, 0, .5);
+			left: 0;
+			top: 0;
+		}
+
+	}
+
+}
+
+.zmiti-logo {
+	width: 8rem;
+	font-size: 12px;
+	color: #5f5f5f;
+	text-align: center;
+
+	img {
+		width: .5rem;
+	}
+
+	margin: 0 auto 0;
+
+	&.zmiti-sentime-logo {
+		margin: .6rem auto 0;
+
+		img {
+			width: 1rem;
+		}
+
+	}
+
+}
