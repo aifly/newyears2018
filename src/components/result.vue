@@ -1,25 +1,49 @@
 <template>
-	<div ref='zmiti-scene' class="zmiti-reuslt-main-ui lt-full">
+	<div v-if='showResult' ref='zmiti-scene' class="zmiti-reuslt-main-ui lt-full">
 		
 		<div class="zmiti-card">
 			<img src="../assets/card.png">
+			<canvas ref='canvas' class="zmiti-canvas" :width='viewW*.7' :height="viewW*.8"></canvas>
+		</div>
+
+		<div class="zmiti-reuslt-main" :class='{"active":showMain,"hideline":hideLine,"lantern-up":lanternUp}'>
+			<div class="zmiti-badge">
+				<img src='../assets/badge.png'/>
+				<span>100分</span>
+			</div>
+
+			<div class="zmiti-lantern">
+				<img src="../assets/lantern.png" ref='lantern' >
+			</div>
+
+			<div class="zmiti-lantern1">
+				<img src="../assets/lantern.png" ref='lantern' >
+			</div>
+		</div>
+
+
+		<div class="zmiti-headimg">
+			<img src="../assets/111.png">
+
+			<img src="../assets/shadow.png" class="zmiti-shadow">
 		</div>
 
 		<div class="zmiti-result-btns">
-			<div>再拍一张</div>
-			<div>寄给朋友</div>
+			<div @touchstart='rePhoto=true' @touchend='rePhoto=false' :class='{"active":rePhoto}'>再拍一张</div>
+			<div @touchstart='sendToFriend=true' @touchend='sendToFriend=false' :class='{"active":sendToFriend}'>寄给朋友</div>
 		</div>
 
-		<div class="zmiti-logo zmiti-sentime-logo">
-			<img src="../assets/sentime-logo.png"  />
-			人脸识别技术由商汤科技提供支持
-		</div>
+		<div class="zmiti-result-copyright">
+			<div class="zmiti-logo zmiti-sentime-logo">
+				<img src="../assets/sentime-logo.png"  />
+				人脸识别技术由商汤科技提供支持
+			</div>
+			<div class="zmiti-logo">
+				<img src="../assets/xinhua-logo.png"  />
+				新华社新媒体中心  新疆分社联合出品
+			</div>
 
-		<div class="zmiti-logo">
-			<img src="../assets/xinhua-logo.png"  />
-			新华社新媒体中心  新疆分社联合出品
 		</div>
-
 
 
 
@@ -32,8 +56,14 @@
 import $ from 'jquery';
 import './css/result.css';
 	export default {
+		props:['showResult'],
 		data(){
 			return {
+				showMain:false,
+				hideLine:false,
+				lanternUp:false,
+				rePhoto:false,
+				sendToFriend:false,
 				viewW:document.documentElement.clientWidth,
 				viewH:document.documentElement.clientHeight
 			}
@@ -91,12 +121,29 @@ import './css/result.css';
 
 				render();
 
+			},
+			initCanvas(){
 
+				var rem = this.viewW / 10;
+				var canvas = this.$refs['canvas'];
+				var context = canvas.getContext('2d');
 
+				var img = this.$refs['lantern'];
+				img.onload = ()=>{
+					context.drawImage(img,5*rem,0,1.5*rem,2*rem);
+				}
 
+			},
+			badgeUp(){
+				this.showMain = this.hideLine = this.lanternUp = true;
 			}
 		},
 		mounted(){
+
+			setTimeout(()=>{
+				this.badgeUp()
+			},100)
+			
 			
 			//this.initWebgl();
 		}
@@ -113,6 +160,11 @@ import './css/result.css';
  	.zmiti-result-btns>div {
 	
 	background: url(../assets/btn-b.png) center center;
+}
+
+.zmiti-headimg{
+	background: url(../assets/shadow.png) no-repeat;
+	background-size: contain;
 }
 
 

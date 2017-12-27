@@ -1,10 +1,15 @@
 <template>
-  <Result></Result>
+  <div>
+    <Result :showResult='false'></Result>
+    <Photo></Photo>
+  </div>
+
 </template>
 
 <script>
 import $ from 'jquery';
 import Result from './result';
+import Photo from './photo';
 import './css/index.css';
 export default {
   name: 'HelloWorld',
@@ -14,7 +19,8 @@ export default {
     }
   },
   components:{
-    Result
+    Result,
+    Photo
   },
   methods:{
     wxConfig: function(title, desc,  url) {
@@ -197,22 +203,7 @@ export default {
         return false;
       }
     },
-    request(){
-      $.ajax({
-        url:'http://api.zmiti.com/v2/share/facedetection',
-        data:{
-          api_id:'ca9cad1836874571a2ad243b36f0b633',
-          api_secret:'54853f8e921d4590bb339ea7c0ecaf07',
-          attributes:1,
-          url:'http://api.zmiti.com/zmiti_ele/other/20171226/600dd1c28641181fcc6a0e73cc715e3e.png'
-        },
-        type:'post',
-
-
-      }).done(data=>{
-        console.log(data);
-      })
-    }
+   
   },
   mounted(){
 

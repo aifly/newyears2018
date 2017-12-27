@@ -5,6 +5,13 @@
 	margin: 1rem auto 0;
 	@include br(.4rem);
 	@include pos(r);
+
+	.zmiti-canvas {
+		@include pos(a);
+		left: .5rem;
+		top: 0;
+	}
+
 }
 
 .zmiti-result-btns {
@@ -23,6 +30,15 @@
 		@include pos(r);
 		@include br(.2rem);
 
+		&.active {
+			@include transform(translate3d(0, 2px, 0));
+
+			&:before {
+				display: none;
+			}
+
+		}
+
 		&:before {
 			@include br(.2rem);
 			overflow: hidden;
@@ -37,6 +53,122 @@
 
 	}
 
+}
+
+.zmiti-reuslt-main {
+	@include pos(a);
+	width: 7rem;
+	left: 1.5rem;
+	top: 1rem;
+	height: 11rem;
+	@include transform(translate3d(0, 6rem, 0));
+	opacity: 0;
+
+	&.active {
+		opacity: 1;
+		@include transform(translate3d(0, 0, 0));
+	}
+
+	&.hideline {
+		.zmiti-badge {
+			&:before, &:after {
+				opacity: 0;
+				@include transition(1s 3.2s);
+			}
+
+		}
+
+	}
+
+	&.lantern-up {
+		.zmiti-lantern1, .zmiti-lantern {
+			@include transform(translate3d(0, -1rem, 0));
+			@include transition(2s 4.5s);
+		}
+
+	}
+
+	@include transition_transform(3s linear);
+}
+
+.zmiti-lantern1, .zmiti-lantern {
+	top: 1rem;
+}
+
+.zmiti-lantern1 {
+	@include pos(a);
+	width: 1.2rem;
+	left: 0;
+}
+
+.zmiti-lantern {
+	@include pos(a);
+	width: 1.5rem;
+	right: 0;
+}
+
+.zmiti-badge {
+	@include pos(a);
+	width: 4rem;
+	left: 1.5rem;
+	top: 4rem;
+
+	&:after, &:before {
+		content: '';
+		@include pos(a);
+		width: 1px;
+		height: 2.8rem;
+		background: #ccc;
+		bottom: 1rem;
+		left: .5rem;
+		@include transform(rotate(-23deg));
+		@include transformOrigin(bottom);
+	}
+
+	&:after {
+		right: .5rem;
+		left: auto;
+		height: 3rem;
+		@include transform(rotate(16deg));
+	}
+
+	span {
+		color: #8e6b17;
+		font-weight: bold;
+		@include pos(a);
+		width: 100%;
+		text-align: center;
+		top: .6rem;
+	}
+
+}
+
+.zmiti-headimg {
+	@include pos(a);
+	width: 3rem;
+	height: 3rem;
+	@include br();
+	top: 2rem;
+	left: 3.5rem;
+
+	img {
+		@include br();
+	}
+
+	.zmiti-shadow {
+		@include pos(a);
+		z-index: 10;
+		left: 0;
+		top: 0;
+		@include transform(scale(1.4));
+	}
+
+}
+
+.zmiti-result-copyright {
+	@include pos(a);
+	width: 100%;
+	bottom: .5rem;
 }
 
 .zmiti-logo {
