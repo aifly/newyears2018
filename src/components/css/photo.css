@@ -103,8 +103,7 @@
       transition: opacity 1s 4s;
       opacity: 1; }
     .zmiti-photo-C .zmiti-photo-grid-C ul {
-      position: relative;
-      opacity: 0; }
+      position: relative; }
       .zmiti-photo-C .zmiti-photo-grid-C ul.show {
         z-index: 13;
         opacity: 1; }

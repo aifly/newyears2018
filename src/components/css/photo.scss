@@ -127,7 +127,6 @@
 
 		ul {
 			@include pos(r);
-			opacity: 0;
 
 			&.show {
 				z-index: 13;

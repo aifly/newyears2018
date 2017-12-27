@@ -9,7 +9,7 @@
 		<div class="zmiti-reuslt-main" :class='{"active":showMain,"hideline":hideLine,"lantern-up":lanternUp}'>
 			<div class="zmiti-badge">
 				<img src='../assets/badge.png'/>
-				<span>100分</span>
+				<span v-html='avg+"分"'></span>
 			</div>
 
 			<div class="zmiti-lantern">
@@ -21,9 +21,8 @@
 			</div>
 		</div>
 
-
 		<div class="zmiti-headimg">
-			<img src="../assets/111.png">
+			<img :src='clipImg' v-if='clipImg'>
 
 			<img src="../assets/shadow.png" class="zmiti-shadow">
 		</div>
@@ -56,7 +55,7 @@
 import $ from 'jquery';
 import './css/result.css';
 	export default {
-		props:['showResult'],
+		props:['showResult','avg','clipImg'],
 		data(){
 			return {
 				showMain:false,
@@ -155,6 +154,7 @@ import './css/result.css';
  	.zmiti-reuslt-main-ui{
  		background: url(../assets/bg.jpg) no-repeat center;
  		background-size: cover;
+ 		z-index: 2;
  	}
 
  	.zmiti-result-btns>div {

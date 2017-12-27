@@ -43,7 +43,7 @@
 		</div>
 		<div class="zmiti-face-btns">
 			<div @touchstart='rePhoto=true' @touchend='rePhoto=false' :class='{"active":rePhoto}' @click='reupload'>重新上传</div>
-			<div @touchstart='sure=true' @touchend='sure=false' :class='{"active":sure}'>确定</div>
+			<div @touchstart='sure=true' @click='entryResult' @touchend='sure=false' :class='{"active":sure}'>确定</div>
 		</div>
 		<div v-show='headimg' class="zmiti-img-clip-C lt-full">
 			<header>
@@ -66,6 +66,8 @@
  import './css/photo.css';
 
  import $ from 'jquery';
+
+
 	export default {
 		data(){
 			return {
@@ -93,6 +95,24 @@
 			}
 		},
 		methods:{
+
+			entryResult(){//确定并进入结果页面
+
+				if(this.validate){
+				/*	var img = new Image();
+			       img.crossOrigin = '*'
+			       img.onload = function(){
+			         var alloyImg = AlloyImage(this);
+			         //var s = alloyImg.ps('素描').replace(document.getElementById('img'));
+
+			         console.log(alloyImg.ps('素描'));
+			        
+			       }
+			       img.src = this.clipImg;*/
+					this.$emit('show-result-page',(this.smile+this.attractive)/2,this.clipImg)
+				}
+
+			},
 			reupload(){
 				this.headimg = '';
 				this.clipImg = '';
@@ -339,6 +359,7 @@
 		mounted(){
 
 			//this.headimg ='http://api.zmiti.com/zmiti_ele/other/20171227/b93360e8cd81dfb938b9025696efdd76.png';
+
 
 
 			this.bindEvent();

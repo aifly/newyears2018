@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Result :showResult='false'></Result>
-    <Photo></Photo>
+    <Result :clipImg='clipImg' :avg='avg' :showResult='showResult'></Result>
+    <Photo @show-result-page='showResultPage'></Photo>
   </div>
 
 </template>
@@ -15,7 +15,9 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      
+      showResult:false,
+      avg:0,
+      clipImg:''
     }
   },
   components:{
@@ -23,6 +25,15 @@ export default {
     Photo
   },
   methods:{
+
+    showResultPage(avg,clipImg){
+
+
+      this.clipImg = clipImg;
+      this.avg=  avg;
+      this.showResult = true;
+
+    },
     wxConfig: function(title, desc,  url) {
       
     var s = this;
