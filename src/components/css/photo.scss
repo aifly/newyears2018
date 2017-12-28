@@ -1,11 +1,76 @@
 @import "./base.scss";
 
+.zmiti-photo-main-ui {
+	@include transform3d();
+	z-index: 203;
+	@include transform(translate3d(0, 1rem, 0));
+	opacity: 0;
+
+	&.show {
+		opacity: 1;
+		@include transform(translate3d(0, 0, 0));
+		@include transition(1s 1s);
+	}
+
+	.zmiti-line1, .zmiti-line2 {
+		width: 100%;
+		height: 1px;
+		bottom: 2rem;
+		@include pos(a);
+		z-index: 10;
+	}
+
+	.zmiti-line2 {
+		bottom: 3rem;
+	}
+
+	.zmiti-title {
+		@include pos(a);
+		width: 8rem;
+		top: 1.3rem;
+		left: 1rem;
+		@include transform(translate3d(0, 0, 0));
+
+		&.active {
+			//@include animation(title 5s forwards infinite);
+		}
+
+	}
+
+	.zmiti-bg-canvas {
+		@include pos(a);
+		left: 0;
+		top: 0;
+	}
+
+}
+
+@-webkit-keyframes title {
+	50% {
+		@include transform(translate3d(0, 4rem, 4rem) scale(.8));
+	}
+
+	100% {
+		@include transform(translate3d(0, 0, 0));
+	}
+
+}
+
 .zmiti-photo-C {
 	@include pos(a);
 	width: 5rem;
-	height: 5rem;
+	height: 6.84rem;
 	left: 2.5rem;
 	top: 4.3rem;
+
+	.zmiti-scaning {
+		color: #d3292e;
+		font-size: .5rem;
+		@include pos(r);
+		top: .2rem;
+		height: 1rem;
+		text-align: center;
+	}
 
 	.zmiti-detection-error {
 		@include pos(a);
@@ -34,7 +99,7 @@
 			}
 
 			&:nth-of-type(4) {
-				@include transform(rotate(180deg) translate3d(0, 1.7rem, 0));
+				@include transform(rotate(180deg) translate3d(0, 3.5rem, 0));
 			}
 
 		}
@@ -42,9 +107,9 @@
 	}
 
 	&.active {
-		@include transform(rotate(360deg));
-		@include transition(1s 2s);
 
+		/* @include transform(rotate(360deg));
+		@include transition(1s 2s); */
 		&>img {
 			@include transition(1s 3s);
 			@include animation(photo-shake 2s  linear);
@@ -102,7 +167,7 @@
 	.zmiti-photo-grid-C {
 		border: 2px solid #ce3142;
 		width: 4.6rem;
-		height: 4.6rem;
+		height: 6.44rem;
 		margin: .14rem auto;
 		opacity: 0;
 
@@ -110,10 +175,10 @@
 			width: 3rem;
 			@include pos(a);
 			left: 1rem;
-			top: 1.5rem;
+			top: 2.5rem;
 			opacity: 0;
 
-			&.animate {
+			@at-root.animate {
 				opacity: 1;
 				@include animation(photo-shake 3s   infinite alternate);
 			}
@@ -136,7 +201,7 @@
 					content: '';
 					@include pos(a);
 					width: 100%;
-					height: 3px;
+					height: 2px;
 					background: rgba(241, 65, 61, .8);
 					left: 0;
 					top: 0;
@@ -147,7 +212,7 @@
 
 				@-webkit-keyframes scan1 {
 					to {
-						@include transform(translate3d(0, 4.6rem, 0));
+						@include transform(translate3d(0, 6.46rem, 0));
 					}
 
 				}
@@ -194,7 +259,7 @@
 
 			}
 
-			&:nth-of-type(91), &:nth-of-type(92), &:nth-of-type(93), &:nth-of-type(94), &:nth-of-type(95), &:nth-of-type(96), &:nth-of-type(97), &:nth-of-type(98), &:nth-of-type(99), &:nth-of-type(100) {
+			&:nth-of-type(131), &:nth-of-type(132), &:nth-of-type(133), &:nth-of-type(134), &:nth-of-type(135), &:nth-of-type(136), &:nth-of-type(137), &:nth-of-type(138), &:nth-of-type(139), &:nth-of-type(140) {
 				border-bottom: none;
 			}
 
@@ -214,7 +279,7 @@
 					right: 0;
 					width: 1px;
 					background: rgba(241, 65, 61, .8);
-					height: 4.6rem;
+					height: 6.46rem;
 					box-shadow: 0 0 3px rgba(241, 65, 61, 1);
 					@include transform(scale(1, 0));
 					@include transformOrigin(top);
@@ -237,7 +302,7 @@
 		@include pos(a);
 		width: 4.6rem;
 		z-index: 12;
-		@include animation(photo-shake1 1s 1s 5);
+		@include animation(photo-shake1 1s 1s 2);
 	}
 
 	&>img {
@@ -247,26 +312,26 @@
 		&:nth-of-type(1) {
 			left: 0;
 			top: 0;
-			@include transform(translate3d(1rem, 1rem, 0));
+			@include transform(translate3d(1rem, 2rem, 0));
 		}
 
 		&:nth-of-type(2) {
 			right: 0;
 			top: 0;
-			@include transform(rotateY(180deg) translate3d(1rem, 1rem, 0));
+			@include transform(rotateY(180deg) translate3d(1rem, 2rem, 0));
 		}
 
 		&:nth-of-type(3) {
 			left: 0;
 			bottom: 0;
-			@include transform(rotateX(180deg) translate3d(1rem, 1rem, 0));
+			@include transform(rotateX(180deg) translate3d(1rem, 2rem, 0));
 			//@include transform(rotateX(180deg));
 		}
 
 		&:nth-of-type(4) {
 			right: 0;
 			bottom: 0;
-			@include transform(rotate(180deg) translate3d(1rem, 1rem, 0));
+			@include transform(rotate(180deg) translate3d(1rem, 2rem, 0));
 			//@include transform(rotate(180deg));
 		}
 
@@ -274,66 +339,26 @@
 
 	.zmiti-result-value {
 		@include pos(a);
-		margin: .56rem 0 1rem;
+		left: -1rem;
+		margin-top: .5rem;
+		width: 7rem;
+		@include displayBox(horizontal);
+		-webkit-box-pack: justify;
 
 		&>div {
 			@include pos(r);
 			height: 1rem;
-			font-size: 12px;
+			font-size: .5rem;
 			color: #8e6b17;
+
+			em {
+				font-style: normal;
+				color: #c12130;
+			}
+
 		}
 
 		.zmiti-val {
-			@include pos(a);
-			left: 4.7rem;
-			margin-top: -.4rem;
-		}
-
-		.zmiti-value-bar {
-			width: 3.5rem;
-			height: 6px;
-			@include br(3px);
-			background: #ccc;
-			left: 1rem;
-			bottom: .2rem;
-			@include pos(a);
-			overflow: hidden;
-
-			&:before {
-				content: '';
-				@include pos(a);
-				left: 0;
-				top: 0;
-				width: 100%;
-				height: 100%;
-				box-shadow: 0 0 2px rgba(0, 0, 0, .6) inset;
-			}
-
-			em {
-				background: #ffc12a;
-				width: 100%;
-				@include transform(scale(0, 1));
-				@include transition(1s);
-				@include transformOrigin(left);
-				@include pos(a);
-				left: 0;
-				top: 0;
-				height: 100%;
-			}
-
-			&.zmiti-value-bar1 {
-				em {
-					background: #f3e508;
-				}
-
-			}
-
-		}
-
-		img {
-			width: .7rem;
-			margin-right: .2rem;
-			vertical-align: top;
 		}
 
 	}
@@ -342,7 +367,7 @@
 		opacity: 0;
 		@include pos(a);
 		width: 5rem;
-		height: 5rem;
+		height: 7rem;
 		left: 0;
 		top: 0;
 		z-index: 10;
@@ -351,7 +376,7 @@
 }
 
 .zmiti-img-clip-C {
-	z-index: 10;
+	z-index: 205;
 	background: rgba(0, 0, 0, .5);
 
 	&>header {

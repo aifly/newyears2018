@@ -39,3 +39,97 @@ img {
 	z-index: -1;
 	opacity: 0;
 }
+
+.zmiti-play {
+	@include pos(a);
+	width: .8rem;
+	height: .8rem;
+	right: .5rem;
+	top: .5rem;
+	z-index: 400;
+
+	&.play {
+		@include animation(rotate linear 2s infinite);
+	}
+
+}
+
+.zmiti-cloud {
+	@include pos(a);
+	width: 3rem;
+	opacity: .46;
+	top: 3rem;
+	right: .6rem;
+
+	&.hide {
+		@include transition(1s);
+		opacity: 0;
+		@include transform(translate3d(3rem, 3rem, 0));
+	}
+
+}
+
+.zmiti-loading-bar {
+	@include pos(a);
+	width: 6rem;
+	height: .5rem;
+	background: #f13e41;
+	@include br(10px);
+	left: 2rem;
+	top: 6rem;
+
+	&.hide {
+		opacity: 0;
+		@include transition(1s);
+	}
+
+	.zmiti-progress {
+		@include pos(a);
+		color: #fff;
+		font-family: Georgia;
+		font-size: .6rem;
+		left: 40%;
+		top: .6rem;
+	}
+
+	span {
+		width: 100%;
+		height: 100%;
+		@include br(25px);
+		background: #fcd661;
+		@include pos(a);
+		left: 0;
+		top: 0;
+		@include transformOrigin(left);
+		@include transform(scale(0, 1));
+	}
+
+	img {
+		@include pos(a);
+		z-index: 10;
+		width: 1rem;
+		top: -100%;
+	}
+
+}
+
+.zmiti-cloud1 {
+	left: .6rem;
+	right: auto;
+	width: 2rem;
+	top: 8rem;
+
+	&.hide {
+		opacity: 0;
+		@include transition(1s);
+		@include transform(translate3d(-3rem, 3rem, 0));
+	}
+
+}
+
+@-webkit-keyframes rotate {
+	to {
+		@include transform(rotate(360deg));
+	}
+
+}
