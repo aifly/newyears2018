@@ -17,10 +17,7 @@
 						
 					</div>
 
-					<div class="zmiti-badge">
-						<img src='../assets/badge.png'/>
-						<span v-html='"【"+(avg|0)+"】"'></span>
-					</div>
+					
 
 					<div class="zmiti-lantern">
 						<img src="../assets/lantern.png" ref='lantern' >
@@ -36,7 +33,10 @@
 					<img src="../assets/star.png">
 				</div>
 
-				
+				<div class="zmiti-badge">
+						<img src='../assets/badge.png'/>
+						<span v-html='"【"+(avg|0)+"】"'></span>
+					</div>
 
 				<div class="zmiti-result-img" >
 					<img v-if='i === srcIndex' :src='"../assets/"+i+".gif"' v-for="i in [0,1,2,3,4,5,6,7,8,9,10,11]" />
@@ -150,18 +150,16 @@ import './html2canvas';
 				},500)
 
 
-
 				setTimeout(()=>{
-
-
 					
+				var dom = this.$refs['zmiti-card'];
+				
 
-					var dom = this.$refs['zmiti-card'];
-					
 					html2canvas(dom, {
 					      useCORS: true,
 					      onrendered: function(canvas) {
 					        var url = canvas.toDataURL();
+
 					        $.ajax({
 					          url: 'http://api.zmiti.com/v2/share/base64_image/',
 					          type: 'post',
@@ -178,7 +176,7 @@ import './html2canvas';
 									var img = new Image();
 									img.onload =()=>{
 										s.$refs['photo-audio'].play()
-										s.clipResultImg = src;
+										//s.clipResultImg = src;
 									}	
 									img.src = src;			            
 					            }
@@ -192,7 +190,7 @@ import './html2canvas';
 					      height: dom.offsetHeight
 					    });
 
-				},2000)
+				},1000)
 			})
 
 

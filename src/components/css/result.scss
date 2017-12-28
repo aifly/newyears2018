@@ -37,6 +37,11 @@
 	width: 6rem;
 	top: 50%;
 	left: 1.5rem;
+
+	&.clip {
+		top: 60%;
+	}
+
 }
 
 .zmiti-star {
@@ -171,11 +176,17 @@
 .zmiti-badge {
 	@include pos(a);
 	width: 6rem;
-	left: 1.3rem;
-	top: 3rem;
+	left: 1.8rem;
+	top: 4.5rem;
+
+	&.clip {
+		top: 5rem;
+	}
+
 	z-index: 450;
 
 	&:after, &:before {
+		display: none;
 		content: '';
 		@include pos(a);
 		width: 1px;
@@ -219,7 +230,7 @@
 }
 
 .zmiti-headimg {
-	@include pos(a);
+	@include pos(r);
 	width: 4.2rem;
 	z-index: 0;
 	height: 4.2rem;
