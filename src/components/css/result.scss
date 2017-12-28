@@ -12,9 +12,10 @@
 
 .zmiti-card {
 	width: 9.6rem;
-	margin: 1rem auto 0;
+	top: 1rem;
 	@include br(.4rem);
-	@include pos(r);
+	@include pos(a);
+	left: .2rem;
 	z-index: 10;
 	@include transformOrigin(center 25%);
 	@include transform(scale(1));
@@ -32,11 +33,29 @@
 
 }
 
-.zmiti-result-img {
+.zmiti-reload {
 	@include pos(a);
+	width: 3rem;
+	color: #fff;
+	line-height: .9rem;
+	text-align: center;
+	left: 3.5rem;
+	bottom: 2rem;
+
+	img {
+		@include pos(a);
+		z-index: -1;
+		left: 0;
+		top: 0;
+	}
+
+}
+
+.zmiti-result-img {
+	@include pos(r);
 	width: 6rem;
 	top: 50%;
-	left: 1.5rem;
+	left: 0;
 
 	&.clip {
 		top: 60%;
@@ -61,7 +80,9 @@
 
 .zmiti-result-btns {
 	width: 8rem;
-	margin: -1.5rem auto 0;
+	@include pos(a);
+	left: 1rem;
+	bottom: 2rem;
 	@include displayBox(horizontal);
 	text-align: center;
 	color: #d3292e;
@@ -120,7 +141,7 @@
 	@include pos(a);
 	width: 8.6rem;
 	left: .5rem;
-	top: 1rem;
+	top: 0rem;
 	height: 11rem;
 	@include transform(translate3d(0, 6rem, 0));
 	opacity: 0;
@@ -173,11 +194,19 @@
 	right: 0;
 }
 
-.zmiti-badge {
+.zmiti-result-level {
 	@include pos(a);
+	text-align: center;
+	left: 50%;
+	@include transform(translate3d(-50%, 0, 0));
+}
+
+.zmiti-badge {
 	width: 6rem;
-	left: 1.8rem;
-	top: 4.5rem;
+	left: 0;
+	top: 0rem;
+	@include pos(r);
+	@include transform(translate3d(0, .2rem, 0));
 
 	&.clip {
 		top: 5rem;
@@ -210,6 +239,7 @@
 		font-weight: bold;
 		@include pos(a);
 		width: 100%;
+		left: 0;
 		text-align: center;
 		top: 1rem;
 	}
@@ -235,14 +265,13 @@
 	z-index: 0;
 	height: 4.2rem;
 	@include br();
-	top: 0rem;
+	top: 1rem;
 	left: 2.2rem;
 
 	&>div {
 		@include pos(a);
 		width: 100%;
 		height: 100%;
-		background: red;
 		left: 0;
 		top: 0;
 		@include br();

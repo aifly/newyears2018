@@ -250,9 +250,9 @@
       transform: rotate(180deg) translate3d(1rem, 2rem, 0); }
   .zmiti-photo-C .zmiti-result-value {
     position: absolute;
-    left: -1rem;
+    left: -0.7rem;
     margin-top: .5rem;
-    width: 7rem;
+    width: 6.5rem;
     display: -webkit-box;
     -webkit-box-align: center;
     -webkit-box-pack: center;

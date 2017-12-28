@@ -26,9 +26,10 @@
 
 .zmiti-card {
   width: 9.6rem;
-  margin: 1rem auto 0;
+  top: 1rem;
   border-radius: 0.4rem;
-  position: relative;
+  position: absolute;
+  left: .2rem;
   z-index: 10;
   -webkit-transform-origin: center 25%;
   transform-origin: center 25%;
@@ -44,11 +45,25 @@
     left: .5rem;
     top: 0; }
 
-.zmiti-result-img {
+.zmiti-reload {
   position: absolute;
+  width: 3rem;
+  color: #fff;
+  line-height: .9rem;
+  text-align: center;
+  left: 3.5rem;
+  bottom: 2rem; }
+  .zmiti-reload img {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0; }
+
+.zmiti-result-img {
+  position: relative;
   width: 6rem;
   top: 50%;
-  left: 1.5rem; }
+  left: 0; }
   .zmiti-result-img.clip {
     top: 60%; }
 
@@ -65,7 +80,9 @@
     opacity: 0; } }
 .zmiti-result-btns {
   width: 8rem;
-  margin: -1.5rem auto 0;
+  position: absolute;
+  left: 1rem;
+  bottom: 2rem;
   display: -webkit-box;
   -webkit-box-align: center;
   -webkit-box-pack: center;
@@ -110,7 +127,7 @@
   position: absolute;
   width: 8.6rem;
   left: .5rem;
-  top: 1rem;
+  top: 0rem;
   height: 11rem;
   -webkit-transform: translate3d(0, 6rem, 0);
   transform: translate3d(0, 6rem, 0);
@@ -147,11 +164,20 @@
   width: 1.5rem;
   right: 0; }
 
-.zmiti-badge {
+.zmiti-result-level {
   position: absolute;
+  text-align: center;
+  left: 50%;
+  -webkit-transform: translate3d(-50%, 0, 0);
+  transform: translate3d(-50%, 0, 0); }
+
+.zmiti-badge {
   width: 6rem;
-  left: 1.8rem;
-  top: 4.5rem;
+  left: 0;
+  top: 0rem;
+  position: relative;
+  -webkit-transform: translate3d(0, 0.2rem, 0);
+  transform: translate3d(0, 0.2rem, 0);
   z-index: 450; }
   .zmiti-badge.clip {
     top: 5rem; }
@@ -179,6 +205,7 @@
     font-weight: bold;
     position: absolute;
     width: 100%;
+    left: 0;
     text-align: center;
     top: 1rem; }
 
@@ -197,13 +224,12 @@
   z-index: 0;
   height: 4.2rem;
   border-radius: 50%;
-  top: 0rem;
+  top: 1rem;
   left: 2.2rem; }
   .zmiti-headimg > div {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: red;
     left: 0;
     top: 0;
     border-radius: 50%;

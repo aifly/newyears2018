@@ -9,8 +9,8 @@
 		<div class="zmiti-line2"></div>
 		<div class="zmiti-photo-C " :class='{"active":photoAnimate && !detectionError,"error":detectionError,"restore":restore}'>
 			<img src='../assets/corner.png' />
-			<img src='../assets/corner.png' />
-			<img src='../assets/corner.png' />
+			<img src='../assets/corner.png' hidden="" />
+			<img src='../assets/corner.png' hidden="" />
 			<img src='../assets/corner.png' />
 
 			<span v-if='detectionError' :class="{'animate':detectionError}" class="zmiti-detection-error" v-html='detectionError'></span>
@@ -130,10 +130,7 @@
 							})
 		                }
 		                img.src=this.clipImg;
-					var URI = window.location.href.split('#')[0];
-						URI = this.changeURLPar(URI, 'src', this.clipImg);
-
-					this.wxConfig('我的新年满意度是【'+avg+'】，击败了55%的网友','我可能过了一个假的新年，你呢？',URI);
+					
 					
 				}
 
@@ -239,7 +236,7 @@
 				//开始人脸验证
 				this.$emit('play-show',true);
 				this.headimg = '';
-				this.scaning = true;
+				
 				 $.ajax({
                    url: 'http://api.zmiti.com/v2/share/base64_image/',
 	                   type: 'post',
@@ -250,6 +247,7 @@
 	                   }
 	               }).done(data=>{
 	               	   if (data.getret === 0) {
+	               	   		this.scaning = true;
 	                       var src = data.getimageurl;
 	                       this.clipImg = src;
 	                        var t = setInterval(()=>{
@@ -278,11 +276,11 @@
 
 					var scale = this.width/this.height;
 
-
-					
+					context.clearRect(0,0,canvasW,canvasH)
 					if(this.height / this.width <= canvasH / canvasW){//横图，
 
 						var y = (canvasH - this.height*canvasW/this.width);
+
 						context.drawImage(this,0,y/2,canvasW,this.height*canvasW/this.width);
 						self.transX = 0;
 						self.clipSize = Math.min(this.height*canvasW/this.width | 0,canvasW)/1.5;
@@ -313,6 +311,7 @@
 
 
 					setTimeout(()=>{
+						clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10)
 						clipContext.drawImage(canvas,self.transX,self.transY,self.clipSize,self.clipSize*14/10,0,0,self.clipSize,clipCanvasH)
 					},10)
 
@@ -479,107 +478,7 @@
 
     			render();
 			},
-			wxConfig: function(title, desc,  url) {
-      
-			      var s = this;
-			      var img = 'http://h5.zmiti.com/public/newyears2018/300.jpg';
-			      var appId = 'wxfacf4a639d9e3bcc'; //'wxfacf4a639d9e3bcc'; // data.wxappid; // 'wxfacf4a639d9e3bcc'; //data.wxappid;
-
-			      var durl = url || location.href.split('#')[0];
-			      var code_durl = encodeURIComponent(durl);
-
-			      $.ajax({
-			        type: 'get',
-			        url: "http://api.zmiti.com/weixin/jssdk.php?type=signature&durl=" + code_durl,
-			        dataType: 'jsonp',
-			        jsonp: "callback",
-			        jsonpCallback: "jsonFlickrFeed",
-			        error: function() {
-
-			        },
-			        success: function(data) {
-			          wx.config({
-			            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-			            appId: appId, // 必填，公众号的唯一标识
-			            timestamp: '1488558145', // 必填，生成签名的时间戳
-			            nonceStr: 'Wm3WZYTPz0wzccnW', // 必填，生成签名的随机串
-			            signature: data.signature, // 必填，签名，见附录1
-			            jsApiList: ['checkJsApi',
-			                'onMenuShareTimeline',
-			                'onMenuShareAppMessage',
-			                'onMenuShareQQ',
-			                'onMenuShareWeibo',
-			                'hideMenuItems',
-			                'showMenuItems',
-			                'hideAllNonBaseMenuItem',
-			                'showAllNonBaseMenuItem',
-			                'startRecord',
-			                'stopRecord',
-			                'onRecordEnd',
-			                'playVoice',
-			                'pauseVoice',
-			                'stopVoice',
-			                'uploadVoice',
-			                'downloadVoice',
-			              ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-			          });
-
-			          wx.ready(function() {
-
-			            //朋友圈
-
-			            wx.onMenuShareTimeline({
-			              title: title, // 分享标题
-			              link: durl, // 分享链接
-			              imgUrl: img, // 分享图标
-			              desc: desc,
-			              success: function() {},
-			              cancel: function() {}
-			            });
-			            //朋友
-			            wx.onMenuShareAppMessage({
-			              title: title, // 分享标题
-			              link: durl,
-			              imgUrl: img, // 分享图标
-			              type: "link",
-			              dataUrl: "",
-			              desc: desc,
-			              success: function() {},
-			              cancel: function() {}
-			            });
-			            //qq
-			            wx.onMenuShareQQ({
-			              title: title, // 分享标题
-			              link: durl, // 分享链接
-			              imgUrl: img, // 分享图标
-			              desc: desc,
-			              success: function() {},
-			              cancel: function() {}
-			            });
-			          });
-			        }
-			      });
-
-			   },
-			  getQueryString: function(name) {
-			    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-			    var r = window.location.search.substr(1).match(reg);
-			    if (r != null) return (r[2]);
-			    return null;
-			  },
-			    changeURLPar: function(url, arg, val) {
-			      var pattern = arg + '=([^&]*)';
-			      var replaceText = arg + '=' + val;
-			      return url.match(pattern) ? url.replace(eval('/(' + arg + '=)([^&]*)/gi'), replaceText) : (url.match('[\?]') ? url + '&' + replaceText : url + '?' + replaceText);
-			    },
-			    isWeiXin: function() {
-			      var ua = window.navigator.userAgent.toLowerCase();
-			      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-			        return true;
-			      } else {
-			        return false;
-			      }
-			    },
+			
 			    loading(arr, fn, fnEnd) {
 				        var len = arr.length;
 				        var count = 0;

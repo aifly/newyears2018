@@ -248,6 +248,14 @@ export default {
           },function(){
             s.showPhoto = true;
           })
+
+
+      var src = this.getQueryString('src');
+      var avg = this.getQueryString('avg');
+
+      if(src&& avg){
+        this.showResult = true;
+      }
   }
 }
 </script>
