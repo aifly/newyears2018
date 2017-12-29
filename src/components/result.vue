@@ -362,7 +362,9 @@ import './html2canvas';
 					            if (data.getret === 0) {
 					              var src = data.getimageurl;
 									console.log(src)	
-									setTimeout(()=>{
+
+									var img = new Image();
+									if(img.complete){
 										s.$refs['photo-audio'].play()
 										s.clipResultImg = src;
 
@@ -380,7 +382,11 @@ import './html2canvas';
 
 
 										s.wxConfig('我的新年满意度是【'+(s.avg|0)+'】，击败了'+(scale)+'%的网友','听说微笑可以增加颜值，你准备好了嘛',URI);
-									},3000)
+									}
+									img.onload =()=>{
+										
+									}	
+									img.src = src;			            
 					            }
 
 					          }
