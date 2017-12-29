@@ -50,16 +50,19 @@
 			<div @touchstart='rePhoto=true' @touchend='rePhoto=false' :class='{"active":rePhoto}' @click='reupload'>重新上传</div>
 			<div @touchstart='sure=true' @click='entryResult' @touchend='sure=false' :class='{"active":sure}'>完成</div>
 		</div>
+
+		<div class="zmiti-smile" v-if='showSmileText'>咔嚓前请微笑、微笑、微笑</div>
 		<div v-show='headimg' class="zmiti-img-clip-C lt-full">
 			<header>
 				<div @click="cancelClip">取消</div>
 				<div @click="beginFacedetection">确定</div>
 			</header>
+			<div class="zmiti-photo-loading" v-if='!showClipImg'>图片加载中...</div>
 			<div class="zmiti-clip-img">
 				<canvas ref='canvas' :width='viewW' :height='viewH - 1.5*viewW/10'></canvas>
 				<canvas @touchstart='touchstart($event)' @touchmove='touchmove($event)' @touchend="touchend($event)" :style='{WebkitTransform:"translate3d("+transX+"px,"+transY+"px,0)"}' class="zmiti-clip-canvas" ref='clip-canvas' :width='clipSize' :height='clipSize*14/10'></canvas>
 
-				<div ref='scan' class="zmiti-scan" :style="{WebkitTransform:'translate3d('+(clipSize+transX+offsetLeft/2-20)+'px,'+(clipSize*14/10-20+transY)+'px,0)'}">
+				<div v-show='showClipImg' ref='scan' class="zmiti-scan" :style="{WebkitTransform:'translate3d('+(clipSize+transX+offsetLeft/2-20)+'px,'+(clipSize*14/10-20+transY)+'px,0)'}">
 					<img src="../assets/scan.png">
 				</div>
 			</div>
@@ -81,8 +84,9 @@
 		props:['obserable','showPhoto'],
 		data(){
 			return {
-
+				showSmileText:true,
 				scaning:false,
+				showClipImg:false,
 				photoAnimate:false,
 				lis:[],
 				clipSize:0,
@@ -148,35 +152,69 @@
 			},
 			upload(){
 				this.detectionError = '正在上传，请稍后';
-
 				
-				var formData = new FormData();
-	  		      var s = this;
-	  
-			      formData.append('setupfile', this.$refs['file'].files[0]);
-			      formData.append('uploadtype', 0);
-			      $.ajax({
-			        type: "POST",
-			        contentType: false,
-			        processData: false,
-			        url: 'http://api.zmiti.com/v2/share/upload_file/',
-			        data: formData
-			      }).done((data) => {
-			        console.log(data)
-			        if (data.getret === 0) {
-			          var url = data.getfileurl[0].datainfourl;
-			          var img = new Image();
-			          img.onload =()=>{
-			          	this.headimg = url;
+				this.showSmileText = false;
 
-			          	this.$emit('play-show',false);//隐藏音乐播放按钮
-			          	this.initCanvas();
+				try{
+					var formData = new FormData();
 
-			          	this.detectionError = '';
-			          }
-			          img.src = url
-			        }
-			      });
+	  		    	var s = this ;
+	  				 //window.a.b !== 2;
+				      formData.append('setupfile', this.$refs['file'].files[0]);
+				      formData.append('uploadtype', 0);
+				      $.ajax({
+				        type: "POST",
+				        contentType: false,
+				        processData: false,
+				        url: 'http://api.zmiti.com/v2/share/upload_file/',
+				        data: formData,
+				        error(){
+				        	this.detectionError = '服务器错误';
+				          	setTimeout(()=>{
+				          		this.detectionError = '';
+				          	},2000)
+				        }
+				      }).done((data) => {
+				        console.log(data)
+				        if (data.getret === 0) {
+				          var url = data.getfileurl[0].datainfourl;
+				          var img = new Image();
+				          setTimeout(()=>{
+			          		this.headimg = url;
+			          		this.$emit('play-show',false);//隐藏音乐播放按钮
+				          	this.initCanvas();
+
+				          	this.detectionError = '';
+				          },500)
+
+				          img.onload =()=>{
+
+				          	
+				          }
+				          img.onerror = ()=>{
+				          	this.detectionError = '加载失败,请重试';
+				          	setTimeout(()=>{
+				          		this.detectionError = '';
+				          	},2000)
+				          }
+				          img.src = url
+				        }else{
+				        	this.detectionError = '上传失败,请重试';
+
+				        	setTimeout(()=>{
+				        		this.detectionError = '';
+				        	},2000)
+				        }
+				      });
+					}catch(e){
+
+						this.detectionError = '程序出bug了';
+
+			        	setTimeout(()=>{
+			        		this.detectionError = '';
+			        	},2000)
+						
+					}
 			},
 			 request(url,t){
 
@@ -307,6 +345,9 @@
 					var clipContext = clipCanvas.getContext('2d');
 
 					var clipCanvasH = self.clipSize * 14 /10;
+
+
+					self.showClipImg = true;
 
 
 
@@ -517,6 +558,7 @@
 				this.headimg = '';
 				this.attractive = 0;
 				this.smile = 0;
+				this.showSmileText = true;
 			})
 
 			this.bindEvent();

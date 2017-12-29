@@ -10,9 +10,10 @@
 
 }
 
+
 .zmiti-card {
 	width: 9.6rem;
-	top: 1rem;
+	top: .3rem;
 	@include br(.4rem);
 	@include pos(a);
 	left: .2rem;
@@ -33,6 +34,14 @@
 
 }
 
+
+.zmiti-card1{
+	-webkit-transform:scale(2) !important;
+	opacity:0;
+	z-index: 1;
+	top:5rem;
+	left:5rem;
+}
 .zmiti-reload {
 	@include pos(a);
 	width: 3rem;
@@ -54,12 +63,9 @@
 .zmiti-result-img {
 	@include pos(r);
 	width: 6rem;
-	top: 50%;
+	top: .4rem;
 	left: 0;
 
-	&.clip {
-		top: 60%;
-	}
 
 }
 
@@ -82,7 +88,7 @@
 	width: 8rem;
 	@include pos(a);
 	left: 1rem;
-	bottom: 2rem;
+	bottom: 2.3rem;
 	@include displayBox(horizontal);
 	text-align: center;
 	color: #d3292e;
@@ -136,7 +142,10 @@
 	}
 
 }
-
+.zmiti-cache-img{
+	width:auto;
+	height:auto;
+}
 .zmiti-reuslt-main {
 	@include pos(a);
 	width: 8.6rem;
@@ -164,7 +173,7 @@
 
 	&.lantern-up {
 		.zmiti-lantern1, .zmiti-lantern {
-			@include transform(translate3d(0, -1rem, 0));
+			@include transform(translate3d(0, 0rem, 0));
 			//@include transition(2s 5.5s);
 		}
 
@@ -206,7 +215,7 @@
 	left: 0;
 	top: 0rem;
 	@include pos(r);
-	@include transform(translate3d(0, .2rem, 0));
+	@include transform(translate3d(0, .6rem, 0));
 
 	&.clip {
 		top: 5rem;

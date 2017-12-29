@@ -1,7 +1,7 @@
 <template>
 	<div v-if='showResult'  :class='{"show":showMain}' ref='zmiti-scene' class="zmiti-reuslt-main-ui  lt-full">
 		<audio src='../assets/photo.mp3' ref='photo-audio'></audio>
-		<div class="zmiti-card " :class="{'active':shareAvg>-1 || clipResultImg}" >
+		<div class="zmiti-card " ref='zmiti-card' :class="{'active':shareAvg>-1 || clipResultImg}" >
 			<img :src='clipResultImg || shareSrc' v-if='clipResultImg ||shareSrc'/>
 			<div v-if='!clipResultImg && !shareSrc'>
 				<img src="../assets/card.png">
@@ -13,6 +13,54 @@
 							<img :src='clipImg'>
 						</div>
 
+						<img src="../assets/shadow.png" class="zmiti-shadow">
+						
+					</div>
+
+					<div class="zmiti-result-level">
+						<div class="zmiti-badge">
+								<img src='../assets/badge.png'/>
+								<span v-html='"【"+((avg||shareAvg)|0)+"】"'></span>
+							</div>
+
+						<div class="zmiti-result-img" >
+							<img v-if='i === srcIndex' :src='"../assets/"+i+".gif"' v-for="i in [0,1,2,3,4,5,6,7,8,9,10,11]" />
+						</div>
+					</div>
+
+					<div class="zmiti-lantern">
+						<img src="../assets/lantern.png" ref='lantern' >
+					</div>
+
+					<div class="zmiti-lantern1">
+						<img src="../assets/lantern.png" ref='lantern' >
+					</div>
+				</div>
+
+
+				<div class="zmiti-star">
+					<img src="../assets/star.png">
+				</div>
+
+				
+
+				<!-- <div class="zmiti-sentime-logo">
+					<img src="../assets/sentime-logo.png"  />
+					人脸识别技术由商汤科技提供支持
+				</div> -->
+			</div>
+		</div>
+
+		<div class="zmiti-card zmiti-card1 " ref='zmiti-card1' v-if='!shareSrc && clipNotDone' >
+			<div>
+				<img src="../assets/card.png">
+				<canvas ref='canvas' class="zmiti-canvas" :width='viewW*.7' :height="viewW*.8"></canvas>
+				<div class="zmiti-reuslt-main" :class='{"active":showMain,"hideline":hideLine,"lantern-up":lanternUp}'>
+					
+					<div class="zmiti-headimg">
+						<div>
+							<img :src='clipImg'>
+						</div>
 						<img src="../assets/shadow.png" class="zmiti-shadow">
 						
 					</div>
@@ -65,7 +113,7 @@
 
 		<div @touchstart='rePhoto=true' class="zmiti-reload" @click="reload" @touchend='rePhoto=false' v-if='shareSrc' :class='{"active":rePhoto}'>
 			<img src='../assets/btn1.png'/>
-			我也来刷脸
+			我也来“刷脸”
 		</div>
 
 		<div v-if='clipResultImg || shareSrc' class="zmiti-result-copyright">
@@ -98,6 +146,7 @@ import './html2canvas';
 			return {
 				srcIndex:-1,
 				avg:0,
+				clipNotDone:true,
 				clipResultImg:'',
 				showMask:false,
 				showMain:true,
@@ -288,27 +337,25 @@ import './html2canvas';
 
 				setTimeout(()=>{
 
-					window.$ = $;
-					
-					var dom = $('.zmiti-card').eq(0)[0];
+							
+					var dom = this.$refs['zmiti-card1'];
 
-					//var $dom = dom.clone();
-					
-					//$(dom).css({WebkitTransform:'scale(2)',WebkitTransformOrigin:'top',opacity:0});
+					var dpi = 2;
 
 
-
-					html2canvas(dom, {
-					      useCORS: true,
-					      onrendered: function(canvas) {
+					//$(this.$refs['zmiti-scene']).append(cacheDom.css({WebkitTransform:'scale(.8)',opacity:1}));
+						
+					html2canvas(dom,{
+						useCORS: true,
+						onrendered: function(canvas) {
 					        var url = canvas.toDataURL();
 					        $.ajax({
 					          url: 'http://api.zmiti.com/v2/share/base64_image/',
 					          type: 'post',
 					          data: {
 					            setcontents: url,
-					            setwidth: dom.offsetWidth|0,
-					            setheight: dom.offsetHeight|0
+					            setwidth: dom.offsetWidth*dpi|0,
+					            setheight: dom.offsetHeight*dpi|0
 					          },
 					          success: function(data) {
 					          	//console.log(data);
@@ -321,6 +368,9 @@ import './html2canvas';
 										s.$refs['photo-audio'].play()
 										s.clipResultImg = src;
 
+										s.clipNotDone = false;
+
+
 										var URI = window.location.href.split('#')[0];
 											URI = s.changeURLPar(URI, 'src', src);
 											URI = s.changeURLPar(URI, 'avg', s.avg);
@@ -331,7 +381,7 @@ import './html2canvas';
 											}
 
 
-										s.wxConfig('我的新年满意度是【'+s.avg+'】，击败了'+(scale)+'%的网友','我可能过了一个假的新年，你呢？',URI);
+										s.wxConfig('我的新年满意度是【'+(s.avg|0)+'】，击败了'+(scale)+'%的网友','听说微笑可以增加颜值，你准备好了嘛',URI);
 									}	
 									img.src = src;			            
 					            }
@@ -341,13 +391,16 @@ import './html2canvas';
 
 
 					      },
-					      width: dom.offsetWidth,
-					      height: dom.offsetHeight
-					    });
+					      width: dom.offsetWidth*dpi,
+					      height: dom.offsetHeight*dpi
+					})
 
+				 
 				},1000)
 			})
 
+
+			//obserable.trigger({type:'badgeUp',data:88})
 
 		
 			

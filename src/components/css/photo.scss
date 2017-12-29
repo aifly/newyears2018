@@ -379,6 +379,15 @@
 	z-index: 205;
 	background: rgba(0, 0, 0, .5);
 
+	.zmiti-photo-loading{
+		@include pos(a);
+		width: 100%;
+		text-align: center;
+		top: 5rem;
+		font-size: .5rem;
+		color:#fff;
+	}
+
 	&>header {
 		width: 10rem;
 		height: 1.5rem;
@@ -409,7 +418,7 @@
 			height: 100%;
 			left: 0;
 			top: 0;
-			background: rgba(0, 0, 0, .5);
+			background: rgba(0, 0, 0, .7);
 			z-index: 1;
 		}
 
@@ -432,6 +441,14 @@
 
 	}
 
+}
+
+@at-root.zmiti-smile{
+	color: #d3292e;
+	@include pos(a);
+	width:100%;
+	text-align:center;
+	top:11.5rem;
 }
 
 .zmiti-face-btns {

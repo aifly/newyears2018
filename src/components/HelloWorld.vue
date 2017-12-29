@@ -2,7 +2,7 @@
   <div>
     <Result @play-show='togglePlay' @restart='restart' :obserable='obserable' :clipImg='clipImg' :avg='avg' :showResult='showResult'></Result>
     <Photo :showPhoto='showPhoto' @play-show='togglePlay' :obserable='obserable' @show-result-page='showResultPage'></Photo>
-    <audio src='../assets/bg.mp3' ref='bg-music'  loop="loop"></audio>
+    <audio autoplay="autoplay" src='../assets/bg.mp3' ref='bg-music'  loop="loop"></audio>
 
     <div v-show='showPlay' @click='toggleMusic' class="zmiti-play" :class='{"play":bgState}'>
       <img src="../assets/bg-ico2.png">
@@ -223,7 +223,7 @@ export default {
          });
      }, false);
 
-    this.wxConfig(document.title,'新年快乐');
+    this.wxConfig(document.title,'听说微笑可以增加颜值，你准备好了嘛');
 
 
     var imgs = [];
