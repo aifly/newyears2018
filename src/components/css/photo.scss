@@ -365,6 +365,7 @@
 
 	.zmiti-file {
 		opacity: 0;
+		border: 1px solid red;
 		@include pos(a);
 		width: 5rem;
 		height: 7rem;
@@ -501,11 +502,9 @@
 }
 
 @media all and (max-height:560px) and (max-width:360px) {
-	
 }
 
 @media all and (max-height:563px) and (max-width:375px) {
-
 	.zmiti-photo-main-ui {
 		background-position: center center !important;
 	}

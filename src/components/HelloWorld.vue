@@ -224,6 +224,10 @@ export default {
 
   mounted(){
 
+    obserable.on('toggleMusic',()=>{
+      this.toggleMusic();
+    })
+
     this.updatePv();
     var self = this;
     $(self.$refs['bg-music']).on('play',()=>{

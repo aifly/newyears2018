@@ -1,7 +1,7 @@
 <template>
 	<div v-if='showResult'  :class='{"show":showMain}' ref='zmiti-scene' class="zmiti-reuslt-main-ui  lt-full">
 		<audio src='../assets/photo.mp3' ref='photo-audio'></audio>
-		<div class="zmiti-card " ref='zmiti-card' :class="{'active':shareAvg>-1 || clipResultImg}" >
+		<div class="zmiti-card " ref='zmiti-card' :class="{'active':shareAvg>-1 || !clipNotDone}" >
 			<img :src='clipResultImg || shareSrc' v-if='clipResultImg ||shareSrc'/>
 			<div v-if='!clipResultImg && !shareSrc'>
 				<img src="../assets/card.png">
@@ -151,7 +151,7 @@ import './html2canvas';
 				showMask:false,
 				showMain:true,
 				shareSrc:'',
-				shareAvg:-1,
+				shareAvg:'',
 				hideLine:true,
 				lanternUp:true,
 				rePhoto:true,
@@ -338,7 +338,6 @@ import './html2canvas';
 					
 					console.log(dom);
 					var dpi = 2;
-						
 					html2canvas(dom,{
 						useCORS: true,
 						onrendered: function(canvas) {

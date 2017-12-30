@@ -5,7 +5,7 @@
 			<img src="../assets/title.png">
 		</div>
 
-		
+		<audio src='../assets/qiezi.mp3' ref='qiezi'></audio>
 
 		<div class="zmiti-line1"></div>
 		<div class="zmiti-line2"></div>
@@ -16,8 +16,8 @@
 			<img src='../assets/corner.png' />
 
 			<span v-if='detectionError' :class="{'animate':detectionError}" class="zmiti-detection-error" v-html='detectionError'></span>
-			
-			<div class="zmiti-photo-grid-C"  :class='{"active":showGrid}'  v-if='!detectionError'>
+					 
+			<div class="zmiti-photo-grid-C"   :class='{"active":showGrid}'  v-if='!detectionError'>
 				<ul :class="{'show':clipImg && !validate}">
 					<li v-for='li in lis' :class='{"active":currentIndex === li,"scan":(li<10 || (li+1)%10===0)}'>
 						<span v-if='clipImg' :style='{WebkitAnimationDuration:(Math.random()*3+2)+"s",opacity:li%3/3}'></span>
@@ -31,7 +31,7 @@
 				<div  class="zmiti-upload-img" :class="{'animate':!clipImg}">
 					<img src="../assets/upload.png">
 				</div>
-				<input class="zmiti-file" accept="image/*" type='file' ref='file' @change="upload"/>
+				<input @click="openDialog" class="zmiti-file" accept="image/*" type='file' ref='file' @change="upload"/>
 
 				<div class="zmiti-scaning" v-if='scaning'>扫描中...</div>
 			</div>
@@ -116,6 +116,19 @@
 		},
 		methods:{
 
+			openDialog(){
+				//this.$refs['file'].click();
+				var {obserable} = this;
+				obserable.trigger({type:'toggleMusic'});
+				setTimeout(()=>{
+
+					this.$refs['qiezi'].play();
+
+				},2000)
+
+
+			},
+
 			entryResult(){//确定并进入结果页面
 
 				var {obserable} = this;
@@ -155,6 +168,9 @@
 				this.$emit('play-show',true);
 			},
 			upload(){
+
+
+				var {obserable} = this;
 				this.detectionError = '正在上传，请稍后';
 
 				this.showSmileText = false;
@@ -184,6 +200,7 @@
 				        //console.log(data);
 				        //alert('服务器返回正确');
 				        if (data.getret === 0) {
+				        	obserable.trigger({type:'toggleMusic'});
 				          var url = data.getfileurl[0].datainfourl;
 				          //alert('上传成功')
 				          var img = new Image();
@@ -383,7 +400,7 @@
 						clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10)
 						clipContext.drawImage(canvas,self.transX,self.transY,self.clipSize,self.clipSize*14/10,0,0,self.clipSize,clipCanvasH)
 						self.drawDashLine(clipContext)
-					},10)
+					},100)
 
 						self.clipContext = clipContext;
 
@@ -400,7 +417,7 @@
 				this.startX = e.changedTouches[0].pageX - this.transX;
 				this.startY = e.changedTouches[0].pageY -this.transY;
 
-				return false;
+				//return false;
 			},
 			touchmove(e){
 
@@ -463,7 +480,7 @@
 
 					
 
-					console.log(self.transY,canvas.height-self.clipSize-self.offsetTop)
+					//console.log(self.transY,canvas.height-self.clipSize-self.offsetTop)
 
 
 					this.clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10);
@@ -473,7 +490,7 @@
 				this.drawDashLine(this.clipContext)
 
 
-				return false;
+				//return false;
 
 			},
 			bindEvent(){
@@ -498,7 +515,7 @@
 					 
 						
 
-						return false;
+						//return false;
 
 					}).on('touchend',e=>{
 						$doc.off('touchend touchmove');
@@ -508,7 +525,7 @@
 						this.drawDashLine(this.clipContext)
 					})
 
-					return false;
+					//return false;
 				})
 			},
 			touchend(){

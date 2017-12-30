@@ -283,11 +283,16 @@
     top: -.2rem; } }
 @media all and (max-height: 560px) and (max-width: 360px) {
   .zmiti-card {
-    width: 9rem;
-    left: .5rem; }
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    -webkit-transform-origin: center 15%;
+    transform-origin: center 15%; }
+    .zmiti-card.active {
+      -webkit-transform: scale(0.7);
+      transform: scale(0.7); }
 
   .zmiti-result-btns {
-    bottom: 1.6rem; }
+    bottom: 1.9rem; }
 
   .zmiti-card {
     top: 0rem; } }
@@ -296,5 +301,13 @@
     bottom: 1.6rem; }
 
   .zmiti-card {
-    top: -.2rem; } }
+    top: -.2rem;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: center 25%;
+    transform-origin: center 25%; }
+    .zmiti-card.active {
+      -webkit-transform: scale(0.8);
+      transform: scale(0.8); } }
+
 /*# sourceMappingURL=result.css.map */
