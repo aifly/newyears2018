@@ -8,16 +8,20 @@
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-	<img id="img" width="200" src="http://api.zmiti.com/zmiti_ele/other/20171226/600dd1c28641181fcc6a0e73cc715e3e.png">
+	<img id="img" crossOrigin='anonymous' width="200" src="http://api.zmiti.com/zmiti_ele/other/20171230/71d95c0e361bffd4d65d654a2de63feb.png">
     <script src='http://alloyteam.github.io/AlloyImage/js/combined/alloyimage.js'></script>
     <script>
        
        var img = new Image();
        img.crossOrigin = '*'
        img.onload = function(){
+
+        alert(1)
          var alloyImg = AlloyImage(this);
          var s = alloyImg.ps('素描').replace(document.getElementById('img'));
-    
+       }
+       img.onerror = function(){
+        alert('error')
        }
        img.src = document.getElementById('img').src;
     </script>

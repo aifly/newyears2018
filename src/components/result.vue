@@ -187,15 +187,16 @@ import './html2canvas';
 			wxConfig: function(title, desc,  url) {
       
 			      var s = this;
-			      var img = 'http://h5.zmiti.com/public/newyears2018/300.jpg';
-			      var appId = 'wxfacf4a639d9e3bcc'; //'wxfacf4a639d9e3bcc'; // data.wxappid; // 'wxfacf4a639d9e3bcc'; //data.wxappid;
+			      //var img = 'http://h5.zmiti.com/public/newyears2018/300.jpg';
+			      var img = 'http://h5.zhongguowangshi.com/newyears2018/300.jpg';
+			      var appId = 'wx5ec3d35069383211'; //'wxfacf4a639d9e3bcc'; // data.wxappid; // 'wxfacf4a639d9e3bcc'; //data.wxappid;
 
 			      var durl = url || location.href.split('#')[0];
 			      var code_durl = encodeURIComponent(durl);
 
 			      $.ajax({
 			        type: 'get',
-			        url: "http://api.zmiti.com/weixin/jssdk.php?type=signature&durl=" + code_durl,
+			        url: "http://h5.zhongguowangshi.com/newyears2018/weixin/jssdk.php?type=signature&durl=" + code_durl+'&worksid=5273807230',
 			        dataType: 'jsonp',
 			        jsonp: "callback",
 			        jsonpCallback: "jsonFlickrFeed",
@@ -320,6 +321,7 @@ import './html2canvas';
 			var s = this;
 			obserable.on('badgeUp',(data)=>{
 
+				var dom = '';
 				setTimeout(()=>{
 
 					var d = data;
@@ -330,25 +332,19 @@ import './html2canvas';
 					if(data === 0){
 						this.srcIndex = 0;
 					}
+					var dom = s.$refs['zmiti-card1'];
 					this.badgeUp();
-
-				},500)
-
-
-				setTimeout(()=>{
-
-							
-					var dom = this.$refs['zmiti-card1'];
-
+					setTimeout(()=>{
+					
+					console.log(dom);
 					var dpi = 2;
-
-
-					//$(this.$refs['zmiti-scene']).append(cacheDom.css({WebkitTransform:'scale(.8)',opacity:1}));
 						
 					html2canvas(dom,{
 						useCORS: true,
 						onrendered: function(canvas) {
 					        var url = canvas.toDataURL();
+					        s.clipResultImg = url;
+					      
 					        $.ajax({
 					          url: 'http://api.zmiti.com/v2/share/base64_image/',
 					          type: 'post',
@@ -361,32 +357,16 @@ import './html2canvas';
 					          	//console.log(data);
 					            if (data.getret === 0) {
 					              var src = data.getimageurl;
-									console.log(src)	
-
-									var img = new Image();
-									if(img.complete){
-										s.$refs['photo-audio'].play()
-										s.clipResultImg = src;
-
-										s.clipNotDone = false;
-
-
-										var URI = window.location.href.split('#')[0];
-											URI = s.changeURLPar(URI, 'src', src);
-											URI = s.changeURLPar(URI, 'avg', s.avg);
-
-											var scale = 0;
-											if(s.srcIndex >0){
-												scale = ((s.srcIndex-1)*10+Math.random()*9)|0;
-											}
-
-
-										s.wxConfig('我的新年满意度是【'+(s.avg|0)+'】，击败了'+(scale)+'%的网友','听说微笑可以增加颜值，你准备好了嘛',URI);
+									var URI = window.location.href.split('#')[0];
+									URI = s.changeURLPar(URI, 'src', src);
+									URI = s.changeURLPar(URI, 'avg', s.avg);
+									 s.clipNotDone = false;
+					       			 s.$refs['photo-audio'].play()
+									var scale = 0;
+									if(s.srcIndex >0){
+										scale = ((s.srcIndex-1)*10+Math.random()*9)|0;
 									}
-									img.onload =()=>{
-										
-									}	
-									img.src = src;			            
+									s.wxConfig('我的新年满意度是【'+(s.avg|0)+'】，击败了'+(scale)+'%的网友','听说微笑可以增加颜值，你准备好了吗',URI);        
 					            }
 
 					          }
@@ -399,7 +379,16 @@ import './html2canvas';
 					})
 
 				 
-				},1000)
+				},10)
+				},500)
+
+				
+			})
+
+			$('.lt-full').on('touchmove',function(e){
+				e.preventDefault();
+
+				//return false;
 			})
 
 

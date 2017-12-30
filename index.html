@@ -2,11 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <script>
-      document.addEventListener('touchmove',function(e){e.preventDefault()});
+      document.addEventListener('touchmove',function(e){e.preventDefault();return false;},true);
       document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.clientWidth/10+'px';
     </script>
+    <style>
+      #app{
+        width: 10rem;
+        height: 100%;
+
+        overflow: hidden;
+      }
+    </style>
     <title>“刷脸”解码新年</title>
   </head>
   <body>
@@ -16,30 +24,7 @@
 
   <script src='http://res.wx.qq.com/open/js/jweixin-1.2.0.js'></script>
   <script>
-    function loading(arr, fn, fnEnd) {
-        var len = arr.length;
-        var count = 0;
-        var i = 0;
-
-        function loadimg() {
-          if (i === len) {
-            return;
-          }
-          var img = new Image();
-          img.onload = img.onerror = function() {
-            count++;
-            if (i < len - 1) {
-              i++;
-              loadimg();
-              fn && fn(i / (len - 1), img.src);
-            } else {
-              fnEnd && fnEnd(img.src);
-            }
-          };
-          img.src = arr[i];
-        }
-        loadimg();
-    } 
+     
   </script>
   </body>
 </html>

@@ -94,7 +94,8 @@ export default {
 
       obserable.trigger({
         type:'restart'
-      })
+      });
+
 
     },
 
@@ -109,15 +110,16 @@ export default {
     wxConfig: function(title, desc,  url) {
       
       var s = this;
-      var img = 'http://h5.zmiti.com/public/newyears2018/300.jpg';
-      var appId = 'wxfacf4a639d9e3bcc'; //'wxfacf4a639d9e3bcc'; // data.wxappid; // 'wxfacf4a639d9e3bcc'; //data.wxappid;
+      var img = 'http://h5.zhongguowangshi.com/newyears2018/300.jpg';
+      var appId = 'wx5ec3d35069383211'; //'wxfacf4a639d9e3bcc'; // data.wxappid; // 'wxfacf4a639d9e3bcc'; //data.wxappid;
 
       var durl = url || location.href.split('#')[0];
       var code_durl = encodeURIComponent(durl);
 
       $.ajax({
         type: 'get',
-        url: "http://api.zmiti.com/weixin/jssdk.php?type=signature&durl=" + code_durl,
+        //url: "http://api.zmiti.com/weixin/jssdk.php?type=signature&durl=" + code_durl,
+        url: "http://h5.zhongguowangshi.com/newyears2018/weixin/jssdk.php?type=signature&durl=" + code_durl+'&worksid=5273807230',
         dataType: 'jsonp',
         jsonp: "callback",
         jsonpCallback: "jsonFlickrFeed",
@@ -207,23 +209,42 @@ export default {
         return false;
       }
     },
+
+  updatePv(){
+    $.ajax({
+      url:'http://api.zmiti.com/v2/custom/update_pvnum/customid/32',
+      type:'post',
+      data:{
+        customid:32
+      }
+    });
+  }
    
   },
+
   mounted(){
+
+    this.updatePv();
     var self = this;
     $(self.$refs['bg-music']).on('play',()=>{
       this.bgState = true;
     }).on('pause',()=>{
       this.bgState = false;
     })
+
+    setTimeout(()=>{
+      
+    },1000)
     self.$refs['bg-music'].play();
+
+    //
     document.addEventListener("WeixinJSBridgeReady", function() {
          WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
              self.$refs['bg-music'].play();
          });
      }, false);
 
-    this.wxConfig(document.title,'听说微笑可以增加颜值，你准备好了嘛');
+    this.wxConfig(document.title,'听说微笑可以增加颜值，你准备好了吗');
 
 
     var imgs = [];
@@ -232,23 +253,22 @@ export default {
       });
 
       $('.lt-full').each(function(){
-        
-        var url = $(this).css('backgroundImage');
+          
+          var url = $(this).css('backgroundImage');
 
-        var str=url;
-        var reg=/\"(.*)\"/g;
-        var arr=str.match(reg);
-        if(arr){
-          imgs.push(arr[0].replace(/"/ig,''));
-        }
-      })
-           var s = this;
+          var str=url;
+          var reg=/\"(.*)\"/g;
+          var arr=str.match(reg);
+          if(arr){
+            imgs.push(arr[0].replace(/"/ig,''));
+          }
+        })
+        var s = this;
           this.loading(imgs,function(e){
               s.progress = (e*100|0);
           },function(){
             s.showPhoto = true;
           })
-
 
       var src = this.getQueryString('src');
       var avg = this.getQueryString('avg');

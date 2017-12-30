@@ -5,6 +5,8 @@
 			<img src="../assets/title.png">
 		</div>
 
+		
+
 		<div class="zmiti-line1"></div>
 		<div class="zmiti-line2"></div>
 		<div class="zmiti-photo-C " :class='{"active":photoAnimate && !detectionError,"error":detectionError,"restore":restore}'>
@@ -57,10 +59,11 @@
 				<div @click="cancelClip">取消</div>
 				<div @click="beginFacedetection">确定</div>
 			</header>
-			<div class="zmiti-photo-loading" v-if='!showClipImg'>图片加载中...</div>
+			<div class="zmiti-photo-loading" v-if='!showClipImg && headimg'>图片加载中...</div>
 			<div class="zmiti-clip-img">
+				 
 				<canvas ref='canvas' :width='viewW' :height='viewH - 1.5*viewW/10'></canvas>
-				<canvas @touchstart='touchstart($event)' @touchmove='touchmove($event)' @touchend="touchend($event)" :style='{WebkitTransform:"translate3d("+transX+"px,"+transY+"px,0)"}' class="zmiti-clip-canvas" ref='clip-canvas' :width='clipSize' :height='clipSize*14/10'></canvas>
+				<canvas  @touchstart='touchstart($event)' @touchmove='touchmove($event)' @touchend="touchend($event)" :style='{WebkitTransform:"translate3d("+transX+"px,"+transY+"px,0)"}' class="zmiti-clip-canvas" ref='clip-canvas' :width='clipSize' :height='clipSize*14/10'></canvas>
 
 				<div v-show='showClipImg' ref='scan' class="zmiti-scan" :style="{WebkitTransform:'translate3d('+(clipSize+transX+offsetLeft/2-20)+'px,'+(clipSize*14/10-20+transY)+'px,0)'}">
 					<img src="../assets/scan.png">
@@ -153,62 +156,60 @@
 			},
 			upload(){
 				this.detectionError = '正在上传，请稍后';
-				
+
 				this.showSmileText = false;
 
-				try{
-					var formData = new FormData();
-	  		    	var s = this;
-	  
-					      formData.append('setupfile', this.$refs['file'].files[0]);
-					      formData.append('uploadtype', 0);
-					      $.ajax({
-					        type: "POST",
-					        contentType: false,
-					        processData: false,
-					        url: 'http://api.zmiti.com/v2/share/upload_file/',
-					        data: formData,
-					        error(){
-					        	this.detectionError = '服务器错误';
+				var formData = new FormData();
+	  		    var s = this;
+	  					
+			      formData.append('setupfile', this.$refs['file'].files[0]);
+			      formData.append('uploadtype', 0);
+			     
+			      $.ajax({
+			        type: "POST",
+			        contentType: false,
+			        processData: false,
+			        url: 'http://api.zmiti.com/v2/share/upload_file/',
+			        data: formData,
+			        error(e){
+			        	
+			        	s.detectionError = '服务器错误';
+			          	setTimeout(()=>{
+			          		s.detectionError = '';
+			          	},2000)
+			          	
+			        },
+			        success(data){
+			        	 
+				        //console.log(data);
+				        //alert('服务器返回正确');
+				        if (data.getret === 0) {
+				          var url = data.getfileurl[0].datainfourl;
+				          //alert('上传成功')
+				          var img = new Image();
+				        	img.onload = function(){
+				        		setTimeout(()=>{
+				          		s.headimg = url;
+				          		s.$emit('play-show',false);//隐藏音乐播放按钮
 					          	setTimeout(()=>{
-					          		this.detectionError = '';
-					          	},2000)
-					        }
-					      }).done((data) => {
-					        console.log(data);
-					        //alert('服务器返回正确');
-					        if (data.getret === 0) {
-					          var url = data.getfileurl[0].datainfourl;
-					          //alert('上传成功')
-					          var img = new Image();
-					          if(img.complete){
-					          	setTimeout(()=>{
-					          		this.headimg = url;
-					          		this.$emit('play-show',false);//隐藏音乐播放按钮
-					          		//alert('开始绘图')
-						          	this.initCanvas();
-						          	this.detectionError = '';
-						          	//alert('提示文字消失');
-						          },100)
-					          }
-					          img.src = url
-					        }else{
-					        	this.detectionError = '上传失败,请重试';
-
-					        	setTimeout(()=>{
-					        		this.detectionError = '';
-					        	},2000)
-					        }
-					      });
-					}catch(e){
-
-						this.detectionError = '程序出bug了';
-
-			        	setTimeout(()=>{
-			        		this.detectionError = '';
-			        	},2000)
-						
-					}
+					          		s.initCanvas();
+					          	},100)
+					          	s.detectionError = '';
+					          	
+					          },100)
+				        	}
+				          img.src = url
+				        }else{
+				        	s.detectionError = '上传失败,请重试';
+				        	s.log({
+								tip:'上传失败，请重试'
+							  });
+				        	setTimeout(()=>{
+				        		s.detectionError = '';
+				        	},2000)
+				        }
+			        }
+			      });
 			},
 			 request(url,t){
 
@@ -230,6 +231,7 @@
 			        if(data.getret ===0 ){
 			        	clearInterval(t);
 			        	this.currentIndex = -1;
+			        	this.scaning = false;
 			        	if(! data.apiresult.faces[0]){
 			        		////alert('未检测到人脸')
 			        		this.detectionError = '无法识别，请重试';
@@ -248,10 +250,30 @@
 			        		},2000)
 			        		return;
 			        	}
-			        	this.scaning = false;
+			        	
 			        	var result = data.apiresult.faces[0].attributes;
 			        	this.smile = result.smile;
+
+			        	if(this.smile>=80 && this.smile<90){
+			        		this.smile = this.smile + 5;
+			        	}
+
+			        	if(this.smile<80){
+			        		this.smile = this.smile + 10;
+			        	}
+
+
 			        	this.attractive = result.attractive;
+			        	if(this.attractive<60){
+			        		this.attractive = 60 + ((Math.random()*20)|0)
+			        	}
+			        	else if(this.attractive >=60 && this.attractive < 80){
+			        		this.attractive = 80+((Math.random()*10)|0);
+			        	}
+			        	else if(this.attractive >= 80 && this.attractive <90){
+			        		this.attractive = 90 + ((Math.random()*10)|0);
+			        	}
+
 						this.validate = true;
 
 
@@ -292,6 +314,22 @@
 	                    }
 	               })
 			},
+			drawDashLine(context){
+				var self = this;
+				context.strokeStyle = 'rgba(241,62,65,.5)';
+				var num = Math.floor(self.clipSize/5);  
+					 var x1 =0 ,
+					 	 x2 = self.clipSize,
+					 	 y1 = self.clipSize,
+					 	 y2 = self.clipSize;
+					for(var i = 0 ; i < num; i++) {  
+				        context[i%2 == 0 ? 'moveTo' : 'lineTo'](x1+(x2-x1)/num*i,y1+(y2-y1)/num*i);  
+				    }
+				//context.fillStyle = 'rgba(0,0,0,.5)';
+				//context.fillRect(0,self.clipSize,self.clipSize,self.clipSize*14/10-self.clipSize);
+
+				context.stroke(); 
+			},
 			initCanvas(){
 				var canvas = this.$refs['canvas'];
 				var context = canvas.getContext('2d');
@@ -299,20 +337,21 @@
 					canvasH = canvas.height,
 					canvasScale = canvasW / canvasH;
 
-				var img = new Image();
 
+				var img = new Image();
 				var self = this;
-				img.crossOrigin = '*'
+
+				img.crossOrigin = 'anonymous';
+
 
 				img.onload = function(){
 
-					var scale = this.width/this.height;
+				var scale = this.width/this.height;
 
 					context.clearRect(0,0,canvasW,canvasH)
 					if(this.height / this.width <= canvasH / canvasW){//横图，
 
 						var y = (canvasH - this.height*canvasW/this.width);
-
 						context.drawImage(this,0,y/2,canvasW,this.height*canvasW/this.width);
 						self.transX = 0;
 						self.clipSize = Math.min(this.height*canvasW/this.width | 0,canvasW)/1.5;
@@ -321,50 +360,51 @@
 						self.offsetTop = y/2;
 					}
 					else{
-
-
-						scale = canvasH*this.width/this.height;
+						scale = canvasH * this.width / this.height;
 
 						var x = canvasW- scale;
 						self.offsetLeft = x/2;
-
 						context.drawImage(this,self.offsetLeft,0,scale,canvasH);
 						self.transX = x/2;
 						self.transY = 0;
 						self.clipSize = scale |0;;
 						self.imgType = 1;
 					}
+					 
 					self.context = context;
 					var clipCanvas = self.$refs['clip-canvas'];
 					var clipContext = clipCanvas.getContext('2d');
 
 					var clipCanvasH = self.clipSize * 14 /10;
-
-
+					
 					self.showClipImg = true;
-
-
 
 					setTimeout(()=>{
 						clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10)
 						clipContext.drawImage(canvas,self.transX,self.transY,self.clipSize,self.clipSize*14/10,0,0,self.clipSize,clipCanvasH)
+						self.drawDashLine(clipContext)
 					},10)
 
-					self.clipContext = clipContext;
-					self.canvas = canvas;
-				
-					
-				}
+						self.clipContext = clipContext;
 
-				img.src= this.headimg;
+						self.canvas = canvas;
+							
+						}
+
+					
+					img.src = self.headimg;
 
 			},
 			touchstart(e){
 				this.isCanMove = true;
 				this.startX = e.changedTouches[0].pageX - this.transX;
 				this.startY = e.changedTouches[0].pageY -this.transY;
+
+				return false;
 			},
 			touchmove(e){
+
+				e.preventDefault();
 				var self = this;
 				var canvas = self.canvas;
 				var endX = e.changedTouches[0].pageX;
@@ -374,13 +414,14 @@
 				//this.clipContext.clearRect(0,0,self.clipSize,self.clipSize);
 
 				if(self.imgType === 1){
+
 					this.transY = endY - this.startY;
-					if(self.transY<=0){
-						self.transY = 0;
+					if(self.transY<=self.offsetTop){
+						self.transY = self.offsetTop;
 						return;
 					}
-					if(self.transY >= canvas.height-self.clipSize){
-						self.transY = canvas.height-self.clipSize;
+					if(self.transY >= canvas.height-self.clipSize*14/10){
+						self.transY = canvas.height-self.clipSize*14/10;
 						return;
 					}
 
@@ -389,17 +430,19 @@
 						self.transX = self.offsetLeft;
 					}
 
-					if(self.transX>canvas.width-self.clipSize - self.offsetLeft){
-						self.transX = canvas.width-self.clipSize - self.offsetLeft;
+					if(self.transX > canvas.width- self.clipSize - self.offsetLeft){
+						self.transX = canvas.width - self.clipSize - self.offsetLeft;
 						
 					}
-					//this.clipContext.clearRect(0,0,self.clipSize,self.clipSize);
+					this.clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10)
 					this.clipContext.drawImage(canvas,self.transX,self.transY,self.clipSize,self.clipSize*14/10,0,0,self.clipSize,self.clipSize*14/10)
 				}
 				else{
+
+
 					this.transX = endX - this.startX;
-					if(this.transX<=0){
-						this.transX = 0;
+					if(this.transX<=self.offsetLeft){
+						this.transX = self.offsetLeft;
 						return;
 					}
 
@@ -409,19 +452,28 @@
 					}
 
 					this.transY = endY - this.startY;
-					if(self.transY<=0){
-						self.transY = 0;
+					if(self.transY<=self.offsetTop){
+						self.transY = self.offsetTop;
 						return;
 					}
-					if(self.transY >= canvas.height-self.clipSize){
-						self.transY = canvas.height-self.clipSize;
+					if(self.transY >= canvas.height-self.clipSize*14/10-self.offsetTop){
+						self.transY = canvas.height-self.clipSize*14/10-self.offsetTop;
 						return;
 					}
 
-					this.clipContext.clearRect(0,0,self.clipSize,self.clipSize);
+					
+
+					console.log(self.transY,canvas.height-self.clipSize-self.offsetTop)
+
+
+					this.clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10);
 					this.clipContext.drawImage(canvas,self.transX,self.transY,self.clipSize,self.clipSize*14/10,0,0,self.clipSize,self.clipSize*14/10)
 				}
 
+				this.drawDashLine(this.clipContext)
+
+
+				return false;
 
 			},
 			bindEvent(){
@@ -436,21 +488,56 @@
 					var defaultSize = this.clipSize;
 					$doc.on('touchmove',e=>{
 
+						e.preventDefault();
+
 						var endX = e.changedTouches[0].pageX;
 						var endY = e.changedTouches[0].pageY;
 
 						this.clipSize = defaultSize -((startX - endX));
+
+					 
 						
 
+						return false;
+
 					}).on('touchend',e=>{
-						$doc.off('touchend touchmove')
+						$doc.off('touchend touchmove');
+						this.clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10)
 						this.clipContext.drawImage(canvas,self.transX,self.transY,self.clipSize,self.clipSize*14/10,0,0,self.clipSize,self.clipSize*14/10)
+
+						this.drawDashLine(this.clipContext)
 					})
+
+					return false;
 				})
 			},
 			touchend(){
 				this.isCanMove = false;
 			},
+
+			log(opt={}){
+				//console.log(opt)
+
+				return;
+				$.ajax({
+					url: 'http://api.zmiti.com/v2/msg/send_msg/',
+					type:'post',
+					data: {
+						type: 'zmiti-upload',
+						content: JSON.stringify(opt),
+						to: ''
+					},
+					error() {
+						alert('send_msg error');
+					},
+					success(data) {
+
+						console.log(data);
+				
+					}
+				});
+			},
+
 			initSnow(){
 				var snowArr = [];
 				var canvas = this.$refs['bg-canvas'];
@@ -567,6 +654,10 @@
 
 			
 			//!this.validate && this.initCanvas();
+
+			window.onerror = function(msg,fileUrl,fileNo){
+				//alert('页面有报错，内容是 ： ' + msg );
+			}
 
 		}
 	}

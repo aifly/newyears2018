@@ -379,14 +379,14 @@
 	z-index: 205;
 	background: rgba(0, 0, 0, .5);
 
-	@at-root.zmiti-photo-loading{
+	@at-root.zmiti-photo-loading {
 		@include pos(f);
 		width: 100%;
 		z-index: 400;
 		text-align: center;
 		top: 5rem;
 		font-size: .5rem;
-		color:#fff;
+		color: #fff;
 	}
 
 	&>header {
@@ -411,6 +411,11 @@
 		width: 100%;
 		-webkit-box-flex: 1;
 		@include pos(r);
+
+		&>img {
+			width: 100%;
+			@include pos(a);
+		}
 
 		&:before {
 			content: '';
@@ -444,12 +449,12 @@
 
 }
 
-@at-root.zmiti-smile{
+@at-root.zmiti-smile {
 	color: #d3292e;
 	@include pos(a);
-	width:100%;
-	text-align:center;
-	top:11.5rem;
+	width: 100%;
+	text-align: center;
+	top: 11.5rem;
 }
 
 .zmiti-face-btns {
