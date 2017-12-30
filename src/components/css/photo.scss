@@ -499,3 +499,53 @@
 	}
 
 }
+
+@media all and (max-height:560px) and (max-width:360px) {
+	.zmiti-photo-main-ui {
+		background-position: center center !important;
+	}
+
+	.zmiti-photo-main-ui {
+		.zmiti-title {
+			top: 2%;
+		}
+
+		.zmiti-photo-C {
+			top: 22%;
+		}
+
+		.zmiti-smile {
+			top: 75%;
+		}
+
+	}
+
+}
+
+@media all and (max-height:563px) and (max-width:375px) {
+}
+
+@media all and (max-height:460px) and (max-width:320px) {
+	.zmiti-photo-main-ui {
+		.zmiti-title {
+			top: 2%;
+		}
+
+		.zmiti-photo-C {
+			top: 18%;
+		}
+
+		.zmiti-smile {
+			top: 70%;
+		}
+
+	}
+
+	.zmiti-result-main-ui {
+		.zmiti-result-btns {
+			bottom: 1rem;
+		}
+
+	}
+
+}
