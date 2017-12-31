@@ -1,7 +1,7 @@
 <template>
 	<div v-if='showResult'  :class='{"show":showMain}' ref='zmiti-scene' class="zmiti-reuslt-main-ui  lt-full">
 		<audio src='../assets/photo.mp3' ref='photo-audio'></audio>
-		<div class="zmiti-card " ref='zmiti-card' :class="{'active':shareAvg>-1 || !clipNotDone}" >
+		<div class="zmiti-card " ref='zmiti-card' :class="{'active':shareAvg !=='' || !clipNotDone}" >
 			<img :src='clipResultImg || shareSrc' v-if='clipResultImg ||shareSrc'/>
 			<div v-if='!clipResultImg && !shareSrc'>
 				<img src="../assets/card.png">
@@ -20,7 +20,7 @@
 					<div class="zmiti-result-level">
 						<div class="zmiti-badge">
 								<img src='../assets/badge.png'/>
-								<span v-html='"【"+((avg||shareAvg)|0)+"】"'></span>
+								<span v-if='avg||shareAvg' v-html='"【"+((avg||shareAvg)|0)+"】"'></span>
 							</div>
 
 						<div class="zmiti-result-img" >
@@ -175,10 +175,11 @@ import './html2canvas';
 				this.$emit('play-show',true)
 			},
 			restart(){
-				this.showMain = this.hideLine = this.lanternUp = false;
+				this.showMain = this.hideLine = this.lanternUp = true;
 				this.avg = 0;
 				this.$emit('restart');
 				this.clipResultImg = '';
+				this.clipNotDone = true;
 			},
 
 			badgeUp(){

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*.ant-btn:focus, .ant-btn:hover,.ant-input:focus, .ant-input:hover {
     background-color: #fff;
     border-color: #bf1616;
@@ -40,6 +41,13 @@
     transition: 0.4s;
     -webkit-transform: scale(0.8);
     transform: scale(0.8); }
+    .zmiti-card.active:before {
+      content: "长按保存图片";
+      position: absolute;
+      width: .5rem;
+      bottom: 0;
+      right: -.5rem;
+      color: #d3292e; }
   .zmiti-card .zmiti-canvas {
     position: absolute;
     left: .5rem;
@@ -51,6 +59,8 @@
   z-index: 1;
   top: 5rem;
   left: 5rem; }
+  .zmiti-card1:before {
+    display: none; }
 
 .zmiti-reload {
   position: absolute;

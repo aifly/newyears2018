@@ -65,7 +65,7 @@
 				<canvas ref='canvas' :width='viewW' :height='viewH - 1.5*viewW/10'></canvas>
 				<canvas  @touchstart='touchstart($event)' @touchmove='touchmove($event)' @touchend="touchend($event)" :style='{WebkitTransform:"translate3d("+transX+"px,"+transY+"px,0)"}' class="zmiti-clip-canvas" ref='clip-canvas' :width='clipSize' :height='clipSize*14/10'></canvas>
 
-				<div v-show='showClipImg' ref='scan' class="zmiti-scan" :style="{WebkitTransform:'translate3d('+(clipSize+transX+offsetLeft/2-20)+'px,'+(clipSize*14/10-20+transY)+'px,0)'}">
+				<div v-show='showClipImg' ref='scan' class="zmiti-scan" :style="{WebkitTransform:'translate3d('+(clipSize+transX+offsetLeft/2-40)+'px,'+(clipSize*14/10-20+transY)+'px,0)'}">
 					<img src="../assets/scan.png">
 				</div>
 			</div>
@@ -307,6 +307,8 @@
 				//开始人脸验证
 				this.$emit('play-show',true);
 				this.headimg = '';
+
+				this.context.clearRect(0,0,this.viewW,this.viewH);
 				
 				 $.ajax({
                    url: 'http://api.zmiti.com/v2/share/base64_image/',
@@ -400,7 +402,7 @@
 						clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10)
 						clipContext.drawImage(canvas,self.transX,self.transY,self.clipSize,self.clipSize*14/10,0,0,self.clipSize,clipCanvasH)
 						self.drawDashLine(clipContext)
-					},100)
+					},500)
 
 						self.clipContext = clipContext;
 

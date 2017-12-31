@@ -1,4 +1,4 @@
-@import "./base.scss";
+﻿@import "./base.scss";
 
 .zmiti-reuslt-main-ui {
 	opacity: 0;
@@ -23,6 +23,16 @@
 	&.active {
 		@include transition(.4s);
 		@include transform(scale(.8));
+
+		&:before {
+			content: "长按保存图片";
+			@include pos(a);
+			width: .5rem;
+			bottom: 0;
+			right: -.5rem;
+			color: #d3292e;
+		}
+
 	}
 
 	.zmiti-canvas {
@@ -34,6 +44,10 @@
 }
 
 .zmiti-card1 {
+	&:before {
+		display: none;
+	}
+
 	-webkit-transform: scale(2) !important;
 	opacity: 0;
 	z-index: 1;
