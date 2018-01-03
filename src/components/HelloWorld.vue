@@ -30,6 +30,7 @@ import Photo from './photo';
 import './css/index.css';
 import Obserable from './obserable';
 var obserable = new Obserable();
+
 export default {
   name: 'HelloWorld',
   data () {
@@ -110,7 +111,7 @@ export default {
     wxConfig: function(title, desc,  url) {
       
       var s = this;
-      var img = 'http://h5.zhongguowangshi.com/newyears2018/300.jpg';
+      var img = window.prototol+'//h5.zhongguowangshi.com/newyears2018/300.jpg';
       var appId = 'wx5ec3d35069383211'; //'wxfacf4a639d9e3bcc'; // data.wxappid; // 'wxfacf4a639d9e3bcc'; //data.wxappid;
 
       var durl = url || location.href.split('#')[0];
@@ -119,7 +120,7 @@ export default {
       $.ajax({
         type: 'get',
         //url: "http://api.zmiti.com/weixin/jssdk.php?type=signature&durl=" + code_durl,
-        url: "http://h5.zhongguowangshi.com/newyears2018/weixin/jssdk.php?type=signature&durl=" + code_durl+'&worksid=5273807230',
+        url: window.prototol +"//h5.zhongguowangshi.com/newyears2018/weixin/jssdk.php?type=signature&durl=" + code_durl+'&worksid=5273807230',
         dataType: 'jsonp',
         jsonp: "callback",
         jsonpCallback: "jsonFlickrFeed",
@@ -212,7 +213,7 @@ export default {
 
   updatePv(){
     $.ajax({
-      url:'http://api.zmiti.com/v2/custom/update_pvnum/customid/32',
+      url:window.prototol+'//api.zmiti.com/v2/custom/update_pvnum/customid/32',
       type:'post',
       data:{
         customid:32

@@ -291,7 +291,7 @@
 
   .zmiti-card {
     top: -.2rem; } }
-@media all and (max-height: 560px) and (max-width: 360px) {
+@media all and (max-height: 560px) and (min-width: 360px) {
   .zmiti-card {
     -webkit-transform: scale(0.9);
     transform: scale(0.9);
@@ -300,6 +300,18 @@
     .zmiti-card.active {
       -webkit-transform: scale(0.7);
       transform: scale(0.7); }
+
+  .zmiti-result-btns {
+    bottom: 1.9rem; }
+
+  .zmiti-card {
+    top: 0rem; } }
+@media all and (max-height: 504px) and (max-width: 320px) {
+  .zmiti-card {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    -webkit-transform-origin: center center;
+    transform-origin: center center; }
 
   .zmiti-result-btns {
     bottom: 1.9rem; }

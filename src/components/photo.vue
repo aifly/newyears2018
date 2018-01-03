@@ -31,7 +31,7 @@
 				<div  class="zmiti-upload-img" :class="{'animate':!clipImg}">
 					<img src="../assets/upload.png">
 				</div>
-				<input @click="openDialog" class="zmiti-file" accept="image/*" type='file' ref='file' @change="upload"/>
+				<input @click="openDialog" capture="camera" class="zmiti-file" accept="image/*" type='file' ref='file' @change="upload"/>
 
 				<div class="zmiti-scaning" v-if='scaning'>扫描中...</div>
 			</div>
@@ -185,7 +185,7 @@
 			        type: "POST",
 			        contentType: false,
 			        processData: false,
-			        url: 'http://api.zmiti.com/v2/share/upload_file/',
+			        url: window.prototol+'//api.zmiti.com/v2/share/upload_file/',
 			        data: formData,
 			        error(e){
 			        	
@@ -212,6 +212,9 @@
 					          		s.initCanvas();
 					          	},100)
 					          	s.detectionError = '';
+
+
+					          	s.deleteImg(url);
 					          	
 					          },100)
 				        	}
@@ -228,12 +231,31 @@
 			        }
 			      });
 			},
+			deleteImg(url){//删除原图
+
+				console.log(url);
+				setTimeout(()=>{
+
+					$.ajax({
+						url: window.prototol+'//api.zmiti.com/v2/share/delete_file/',
+
+						type:'post',
+						data:{
+							filepath:url
+						},
+						success(data){
+							console.log(data);
+						}
+					})
+
+				},2000)
+			},
 			 request(url,t){
 
 
 			 	
 			      $.ajax({
-			        url:'http://api.zmiti.com/v2/share/facedetection',
+			        url:window.prototol+'//api.zmiti.com/v2/share/facedetection',
 			        data:{
 			          api_id:'ca9cad1836874571a2ad243b36f0b633',
 			          api_secret:'54853f8e921d4590bb339ea7c0ecaf07',
@@ -311,7 +333,7 @@
 				this.context.clearRect(0,0,this.viewW,this.viewH);
 				
 				 $.ajax({
-                   url: 'http://api.zmiti.com/v2/share/base64_image/',
+                   url: window.prototol+'//api.zmiti.com/v2/share/base64_image/',
 	                   type: 'post',
 	                   data: {
 	                       setcontents: this.clipContext.canvas.toDataURL(),
@@ -402,7 +424,7 @@
 						clipContext.clearRect(0,0,self.clipSize,self.clipSize*14/10)
 						clipContext.drawImage(canvas,self.transX,self.transY,self.clipSize,self.clipSize*14/10,0,0,self.clipSize,clipCanvasH)
 						self.drawDashLine(clipContext)
-					},500)
+					},200)
 
 						self.clipContext = clipContext;
 

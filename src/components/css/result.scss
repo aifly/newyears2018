@@ -357,7 +357,7 @@
 
 }
 
-@media all and (max-height:560px) and (max-width:360px) {
+@media all and (max-height:560px) and (min-width:360px) {
 	.zmiti-card {
 		//width: 9rem;
 		//left: .5rem;
@@ -368,6 +368,24 @@
 			@include transform(scale(.7));
 		}
 
+	}
+
+	.zmiti-result-btns {
+		bottom: 1.9rem;
+	}
+
+	.zmiti-card {
+		top: 0rem;
+	}
+
+}
+
+@media all and (max-height:504px) and (max-width:320px) {
+	.zmiti-card {
+		//width: 9rem;
+		//left: .5rem;
+		@include transform(scale(.9));
+		@include transformOrigin(center center);
 	}
 
 	.zmiti-result-btns {
